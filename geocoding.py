@@ -7,7 +7,6 @@ thousand requests.
 
 import io
 import re
-import StringIO
 import zipfile
 import logging
 from logging.config import fileConfig
@@ -33,7 +32,7 @@ def read_file(link, table='SBO_2012_00CSA01_with_ann.csv'):
     with z.open(table) as myzip:
         csvstr = myzip.read()
 
-    df = pd.read_csv(StringIO.StringIO(csvstr), dtype=object)
+    df = pd.read_csv(io.StringIO(csvstr.decode('latin-1')), dtype=object)
     return df
 
 def format_data(df, geocol='GEO.display-label'):
@@ -75,22 +74,17 @@ def update_data(geodata_ref):
 
     for index, row in geodata_ref.iterrows():
 
-        try:
-            longitude, latitude = geocode(row['fgeodata'])
+        longitude, latitude = geocode(row['fgeodata'])
 
-            geodata_ref.iloc[index]['longitude'] = longitude
-            geodata_ref.iloc[index]['latitude'] = latitude
-
-        except IndexError: #TODO: resolve index error
-            pass
+        geodata_ref.loc[index]['longitude'] = longitude
+        geodata_ref.loc[index]['latitude'] = latitude
 
     return geodata_ref
 
 def geocoded_data(geodata_ref, df):
     """ Join geocoded data to original data frame. """
-    result = pd.merge(left=df, right=geodata_ref,
-                      on=['GEO.display-label', 'geodata'])
-    #TODO: KeyError: might be an issue with unicode
+    result = pd.merge(df, geodata_ref, how='left',
+                      left_on='GEO.display-label', right_on='geodata')
     return result
 
 
