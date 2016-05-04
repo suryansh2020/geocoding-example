@@ -24,11 +24,28 @@ Use Case
 For this example, we're interested in "Statistics for All U.S. Firms by
 Industry, Gender, Ethnicity, and Race for the U.S., States, Metro Areas,
 Counties, and Places: 2012 Survey of Business Owners". Data for this
-survey can be [viewed here](http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=SBO_2012_00CSA01&prodType=table).
+survey can be [viewed here](http://factfinder.census.gov/faces/tableservices/jsf/pages/prooductview.xhtml?pid=SBO_2012_00CSA01&prodType=table).
 Note that I've hosted the dataset on [AWS](https://aws.amazon.com/)
 because life is too short to wait for downloads from the Census bureau.
 
 We want to get some coordinates then hopefully map them if there's
 time.
+
+Run
+---
+
+You can run this analysis with `$ python fetchdata.py`.
+
+Next Steps: Choose your own adventure!
+---------------------------------------
+
+1. Improve the geocoding in this example
+
+   * You'll see from the log file that some addresses were missed.
+
+1. Create a geospatial app
+
+	* If you would like to use this information in a geospatial app 
+	  then check out a tutorial using [Flask, MongoDB, and Leaflet.js](openshift-mongo-flask-example). 
 
 
